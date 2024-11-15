@@ -5,7 +5,7 @@ import App from './App';
 import Home from './pages/Home';
 
 
-import NotFound from './pages/NotFound';
+import NotFound from './pages/NotFound.tsx';
 
 const router = createBrowserRouter([
   {
