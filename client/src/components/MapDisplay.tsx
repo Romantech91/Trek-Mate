@@ -4,7 +4,7 @@
 const MapDisplay = () => {
   return (
     <div>
-        </div>
+    </div>
     );
 };
 

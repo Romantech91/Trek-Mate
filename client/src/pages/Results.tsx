@@ -1,4 +1,5 @@
 
+import MapDisplay from '../components/MapDisplay';
 import map1 from '../utils/images/forest5.jpg';
 
 
@@ -15,7 +16,7 @@ const ResultsPage = () => {
     }}
     >
       <div>
-        <h1>Here it is</h1>
+      <MapDisplay />
       </div>
     </div>
     );
