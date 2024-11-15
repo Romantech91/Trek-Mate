@@ -3,9 +3,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './App';
 import Home from './pages/Home';
-
-
 import NotFound from './pages/NotFound.tsx';
+import Results from './pages/Results.tsx';
 
 const router = createBrowserRouter([
   {
@@ -16,6 +15,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />
+      }, 
+      {
+        path: '/Results',
+        element: <Results />
       }, 
     ],
   },
