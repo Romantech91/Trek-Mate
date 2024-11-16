@@ -12,7 +12,7 @@ import {
 import Auth from '../utils/auth';
 import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
-import type { Book } from '../models/Book';
+import type { Book } from '../models/Place';
 import type { GoogleAPIBook } from '../models/GoogleAPIBook';
 import { SAVE_BOOK } from '../utils/mutations';
 import { useMutation } from '@apollo/client';
