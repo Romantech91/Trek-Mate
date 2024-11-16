@@ -1,9 +1,9 @@
 import { Schema, model, type Document } from 'mongoose';
 import bcrypt from 'bcrypt';
 
-// import schema from Book.js
-import bookSchema from './Place.js';
-import type { BookDocument } from './Place.js';
+// import schema from Place.js
+import placeSchema from './Place.js';
+import type { PlaceDocument } from './Place.js';
 
 import type { ObjectId } from 'mongodb';
 
@@ -12,9 +12,9 @@ export interface UserDocument extends Document {
   username: string;
   email: string;
   password: string;
-  savedBooks: BookDocument[];
+  savedPlaces: PlaceDocument[];
   isCorrectPassword(password: string): Promise<boolean>;
-  bookCount: number;
+  placeCount: number;
 }
 
 const userSchema = new Schema<UserDocument>(
@@ -34,8 +34,8 @@ const userSchema = new Schema<UserDocument>(
       type: String,
       required: true,
     },
-    // set savedBooks to be an array of data that adheres to the bookSchema
-    savedBooks: [bookSchema],
+    // set savedPlaces to be an array of data that adheres to the placeSchema
+    savedPlaces: [placeSchema],
   },
   // set this to use virtual below
   {
@@ -65,9 +65,9 @@ userSchema.methods.isCorrectPassword = async function (password: string) {
   return await bcrypt.compare(password, this.password);
 };
 
-// when we query a user, we'll also get another field called `bookCount` with the number of saved books we have
-userSchema.virtual('bookCount').get(function () {
-  return this.savedBooks.length;
+// when we query a user, we'll also get another field called `PlaceCount` with the number of saved places we have
+userSchema.virtual('placeCount').get(function () {
+  return this.savedPlaces.length;
 });
 
 const User = model<UserDocument>('User', userSchema);

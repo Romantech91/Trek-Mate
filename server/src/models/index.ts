@@ -1,4 +1,4 @@
 import User from './User';
-import Book from './Place';
+import Place from './Place';
 
-export { User, Book };
+export { User, Place };

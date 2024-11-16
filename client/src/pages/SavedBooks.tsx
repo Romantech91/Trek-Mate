@@ -9,7 +9,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutations';
 import { User } from '../models/User';
-import { Book } from '../models/Book';
+import { Book } from '../models/Place';
 
 interface UserData {
   me : User;
