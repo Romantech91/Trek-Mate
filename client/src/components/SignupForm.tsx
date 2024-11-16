@@ -2,11 +2,13 @@ import { useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
+// import { createUser } from '../utils/API';
 import Auth from '../utils/auth';
 import type { UserInput } from '../models/User';
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
 
+// biome-ignore lint/correctness/noEmptyPattern: <explanation>
 const SignupForm = ({}: { handleModalClose: () => void }) => {
   // set initial form state
   const [userFormData, setUserFormData] = useState<UserInput>({ username: '', email: '', password: '' });
@@ -26,7 +28,7 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(userFormData);
-
+    // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
