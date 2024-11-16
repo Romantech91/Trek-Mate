@@ -1,8 +1,12 @@
 export interface NPSAPIInfo {
-  stateCode: string;
+  latitude: string;
+  longitude: string;
+  parkCode: string;
+  name: string;
+  description: string;
 }
 
 export interface NPSAPIPlace {
     id: string;
-    parkCode: NPSAPIInfo;
+    parkInfo: NPSAPIInfo;
 }

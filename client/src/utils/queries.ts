@@ -10,7 +10,7 @@ export const GET_ME = gql`
       savedPlaces {
         placeId
         savedPlaces
-        placeName
+        name
       }
     }
   }
