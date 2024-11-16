@@ -85,9 +85,9 @@ const SavedBooks = () => {
       <div className='text-light bg-dark p-5'>
         <Container>
           {userData.username ? (
-            <h1>Viewing {userData.username}'s saved books!</h1>
+            <h1>Viewing {userData.username}'s saved places!</h1>
           ) : (
-            <h1>Viewing saved books!</h1>
+            <h1>Viewing saved places!</h1>
           )}
         </Container>
       </div>
@@ -119,7 +119,7 @@ const SavedBooks = () => {
                       className='btn-block btn-danger'
                       onClick={() => handleDeleteBook(book.bookId)}
                     >
-                      Delete this Book!
+                      Delete this Place!
                     </Button>
                   </Card.Body>
                 </Card>
