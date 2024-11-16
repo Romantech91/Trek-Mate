@@ -19,10 +19,19 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^8.2.2"
+    "bcrypt": "^5.1.1",
+    "bootstrap": "^5.3.3",
+    "concurrently": "^8.2.2",
+    "dotenv": "^16.4.5",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
+    "react-bootstrap": "^2.10.5"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/google.maps": "^3.58.1",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/jwt-decode": "^2.2.1",
     "wait-on": "^7.2.0"
   }
 }

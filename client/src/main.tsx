@@ -5,8 +5,6 @@ import App from './App';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound.tsx';
 import Results from './pages/Results.tsx';
-import MapDisplay from './components/MapDisplay.tsx';
-
 const router = createBrowserRouter([
   {
     path: '/',
@@ -20,10 +18,6 @@ const router = createBrowserRouter([
       {
         path: '/Results',
         element: <Results />
-      }, 
-      {
-        path: '/MapDisplay',
-        element: <MapDisplay />
       }, 
     ],
   },
