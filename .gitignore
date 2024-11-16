@@ -1,3 +1,16 @@
+# Created by https://www.toptal.com/developers/gitignore/api/node,cypressio,react
+# Edit at https://www.toptal.com/developers/gitignore?templates=node,cypressio,react
+
+### CypressIO ###
+# gitignore template for the CypressIO, browser test framework
+# website: https://www.cypress.io/
+
+cypress/results/*
+cypress/reports/*
+cypress/screenshots/*
+cypress/videos/*
+
+### Node ###
 # Logs
 logs
 *.log
@@ -6,7 +19,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
-/dist
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
@@ -102,7 +115,6 @@ dist
 
 # vuepress v2.x temp and cache directory
 .temp
-.cache
 
 # Docusaurus cache and generated files
 .docusaurus
@@ -129,4 +141,26 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-.DS_Store
+### Node Patch ###
+# Serverless Webpack directories
+.webpack/
+
+# Optional stylelint cache
+
+# SvelteKit build / generate output
+.svelte-kit
+
+### react ###
+.DS_*
+**/*.backup.*
+**/*.back.*
+
+node_modules
+
+*.sublime*
+
+psd
+thumb
+sketch
+
+# End of https://www.toptal.com/developers/gitignore/api/node,cypressio,react
