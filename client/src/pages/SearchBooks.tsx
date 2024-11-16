@@ -12,8 +12,8 @@ import {
 import Auth from '../utils/auth';
 import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
-import type { Book } from '../models/Place';
-import type { GoogleAPIBook } from '../models/NPSAPI';
+import type { Book } from '../models/Book';
+import type { GoogleAPIBook } from '../models/GoogleAPIBook';
 import { SAVE_BOOK } from '../utils/mutations';
 import { useMutation } from '@apollo/client';
 
@@ -76,7 +76,7 @@ const SearchBooks = () => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
     console.log(token);
     if (!token) {
-      console.error('No token found, please log in to save places.');
+      console.error('No token found, please log in to save books.');
       return false;
     }
 
@@ -91,7 +91,7 @@ const SearchBooks = () => {
       });
 
       if (!response.data) {
-        throw new Error('Failed to save the place.');
+        throw new Error('Failed to save the book.');
       }
 
       // if book successfully saves to user's account, save book id to state
@@ -105,7 +105,7 @@ const SearchBooks = () => {
     <>
       <div className="text-light bg-dark p-5">
         <Container>
-          <h1>Search for camping and hiking in your area!</h1>
+          <h1>Search for Books!</h1>
           <Form onSubmit={handleFormSubmit}>
             <Row>
               <Col xs={12} md={8}>
@@ -115,7 +115,7 @@ const SearchBooks = () => {
                   onChange={(e) => setSearchInput(e.target.value)}
                   type='text'
                   size='lg'
-                  placeholder='Search for a place'
+                  placeholder='Search for a book'
                 />
               </Col>
               <Col xs={12} md={4}>
@@ -132,7 +132,7 @@ const SearchBooks = () => {
         <h2 className='pt-5'>
           {searchedBooks.length
             ? `Viewing ${searchedBooks.length} results:`
-            : 'Search for a place to begin'}
+            : 'Search for a book to begin'}
         </h2>
         <Row>
           {searchedBooks.map((book) => {
@@ -144,7 +144,7 @@ const SearchBooks = () => {
                   ) : null}
                   <Card.Body>
                     <Card.Title>{book.title}</Card.Title>
-                    <p className='small'>Campgrounds: {book.authors}</p>
+                    <p className='small'>Authors: {book.authors}</p>
                     <Card.Text>{book.description}</Card.Text>
                     {Auth.loggedIn() && (
                       <Button
@@ -152,8 +152,8 @@ const SearchBooks = () => {
                         className='btn-block btn-info'
                         onClick={() => handleSaveBook(book.bookId)}>
                         {savedBookIds?.some((savedBookId: string) => savedBookId === book.bookId)
-                          ? 'This place has already been saved!'
-                          : 'Save this Place!'}
+                          ? 'This book has already been saved!'
+                          : 'Save this Book!'}
                       </Button>
                     )}
                   </Card.Body>
