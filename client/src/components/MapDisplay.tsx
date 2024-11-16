@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import './MapDisplay.css';
+//import './MapDisplay.css';
 
 interface MapDisplayProps {
     locations: { lat: number; lng: number; name: string }[];
