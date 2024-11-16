@@ -1,6 +1,9 @@
 
 import MapDisplay from '../components/MapDisplay';
+// import Login from '../components/LoginForm';
 import map1 from '../utils/images/forest5.jpg';
+import './Results.css';
+
 
 
 
@@ -15,8 +18,13 @@ const ResultsPage = () => {
       backgroundRepeat: 'no-repeat',
     }}
     >
-      <div>
-      <MapDisplay />
+    {/* <div style={{border:'solid,white'}}><Login /></div> */}
+      <div className='sigma1'>
+        
+        <div className=''>
+          
+          <MapDisplay />
+        </div>
       </div>
     </div>
     );

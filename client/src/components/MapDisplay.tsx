@@ -1,11 +1,15 @@
 import { useEffect, useRef } from 'react';
 
+
+import './MapDisplay.css';
+
 const MapDisplay = () => {
   const mapRef = useRef(null);
 
   useEffect(() => {
+    const url = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_API_Key}&callback=initMap`;
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=[YOUR_API_Key]&callback=initMap`;
+    script.src = url;
     script.async = true;
     document.body.appendChild(script);
 
@@ -45,9 +49,9 @@ const MapDisplay = () => {
   };
 
   return (
-    <div>
-      <h3>Map with Multiple Markers</h3>
-      <div ref={mapRef} style={{ height: '500px', width: '100%' }}></div>
+    <div className='map-container'>
+      <h3 style={{color:'#f4f4f4'}}>USE THE DYNAMIC MAP TO EXPLORE YOUR FAVORITE AREAS</h3>
+      <div ref={mapRef} style={{ height: '600px', width: '100%' }}></div>
     </div>
   );
 };
