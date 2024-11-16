@@ -1,6 +1,5 @@
 
-// make a search to google books api
-// https://www.googleapis.com/books/v1/volumes?q=harry+potter
-export const searchGoogleBooks = (query: string) => {
-  return fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
+// make a search to maps api
+export const searchNPS = (query: string) => {
+  return fetch(`https://developer.nps.gov/api/v1/campgrounds?stateCode=${query}=${query}&api_key=${API_KEY}`);
 };
