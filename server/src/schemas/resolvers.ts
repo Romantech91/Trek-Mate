@@ -20,33 +20,28 @@ interface UserArgs {
   username: string;
 }
 
-interface BookArgs {
-  bookId: string;
+interface PlaceArgs {
+  placeId: string;
 }
 
-interface AddBookArgs {
+interface AddPlaceArgs {
   input:{
-    bookId: string;
-    authors: string[];
-    title: string;
-    description: string;
-    image: string;
-    link: string;
+    placeId: string;
+    placeName: string;
   }
 }
 
 const resolvers = {
   Query: {
     user: async (_parent: any, { username }: UserArgs) => {
-      return User.findOne({ username }).populate('savedBooks');
+      return User.findOne({ username }).populate('savedPlaces');
     },
     // Query to get the authenticated user's information
     // The 'me' query relies on the context to check if the user is authenticated
     me: async (_parent: any, _args: any, context: any) => {
-      // If the user is authenticated, find and return the user's information along with their books
-      // console.log(context);
+      // If the user is authenticated, find and return the user's information along with their places
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate('savedBooks');
+        return User.findOne({ _id: context.user._id }).populate('savedPlaces');
       }
       // If the user is not authenticated, throw an AuthenticationError
       throw new AuthenticationError('Could not authenticate user.');
@@ -88,13 +83,13 @@ const resolvers = {
       // Return the token and the user
       return { token, user };
     },
-    saveBook: async (_parent: any, { input }: AddBookArgs, context: any) => {
+    saveBook: async (_parent: any, { input }: AddPlaceArgs, context: any) => {
       if (context.user) {
         return User.findOneAndUpdate(
           { _id: context.user._id },
           {
             $addToSet: {
-              savedBooks: { ...input },
+              savedPlaces: { ...input },
             },
           },
           {
@@ -106,14 +101,13 @@ const resolvers = {
       throw AuthenticationError;
       ('You need to be logged in!');
     },
-    removeBook: async (_parent: any, { bookId }: BookArgs, context: any) => {
+    removeBook: async (_parent: any, { placeId }: PlaceArgs, context: any) => {
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $pull: { savedBooks: { bookId: bookId }} },
+          { $pull: { savedPlaces: { bookId: placeId }} },
           { new: true }
         );
-        // console.log(updatedUser);
         return updatedUser;
       }
       throw AuthenticationError;

@@ -1,40 +1,27 @@
 import { Schema, type Document } from 'mongoose';
 
-export interface BookDocument extends Document {
-  bookId: string;
-  title: string;
-  authors: string[];
-  description: string;
-  image: string;
-  link: string;
+export interface PlaceDocument extends Document {
+  placeId: string;
+  placeName: string;
+  savedPlaces: string[];
 }
 
-// This is a subdocument schema, it won't become its own model but we'll use it as the schema for the User's `savedBooks` array in User.js
-const bookSchema = new Schema<BookDocument>({
-  authors: [
+// This is a subdocument schema, it won't become its own model but we'll use it as the schema for the User's `savedPlaces` array in User.js
+const placeSchema = new Schema<PlaceDocument>({
+  savedPlaces: [
     {
       type: String,
     },
   ],
-  description: {
+  placeName: {
     type: String,
     required: true,
   },
-  // saved book id from GoogleBooks
-  bookId: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-  },
-  link: {
-    type: String,
-  },
-  title: {
+  // saved book id from maps API
+  placeId: {
     type: String,
     required: true,
   },
 });
 
-export default bookSchema;
+export default placeSchema;
