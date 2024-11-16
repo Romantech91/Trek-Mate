@@ -2,7 +2,7 @@ import { Schema, type Document } from 'mongoose';
 
 export interface PlaceDocument extends Document {
   placeId: string;
-  placeName: string;
+  name: string;
   savedPlaces: string[];
 }
 
@@ -13,7 +13,7 @@ const placeSchema = new Schema<PlaceDocument>({
       type: String,
     },
   ],
-  placeName: {
+  name: {
     type: String,
     required: true,
   },

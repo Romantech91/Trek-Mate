@@ -27,7 +27,7 @@ interface PlaceArgs {
 interface AddPlaceArgs {
   input:{
     placeId: string;
-    placeName: string;
+    name: string;
   }
 }
 

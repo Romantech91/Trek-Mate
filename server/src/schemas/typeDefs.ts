@@ -9,7 +9,7 @@ const typeDefs = `
 
   type Place {
     placeId: String!
-    placeName: String!
+    name: String!
     createdAt: String
   }
 
@@ -22,7 +22,7 @@ const typeDefs = `
 
   input PlaceInput {
     placeId: String!
-    placeName: String!
+    name: String!
   }
   
   type Auth {
