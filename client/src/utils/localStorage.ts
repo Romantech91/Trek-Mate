@@ -6,7 +6,7 @@ export const getSavedPlaceIds = () => {
   return savedPlaceIds;
 };
 
-export const saveplaceIds = (placeIdArr: string[]) => {
+export const savePlaceIds = (placeIdArr: string[]) => {
   if (placeIdArr.length) {
     localStorage.setItem('saved_places', JSON.stringify(placeIdArr));
   } else {
