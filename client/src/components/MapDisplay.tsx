@@ -11,10 +11,15 @@ const MapDisplay = ({ zoomLevel = 4 }: MapDisplayProps) => {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    const url = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_API_Key}&callback=initMap`;
+    const url = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_API_Key}`;
     const script = document.createElement('script');
     script.src = url;
     script.async = true;
+    script.onload = () => {
+      if (mapRef.current) {
+        initMap(); // Ensure mapRef.current is defined
+      }
+    };
     document.body.appendChild(script);
 
     script.onload = () => {
