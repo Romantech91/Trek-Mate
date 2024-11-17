@@ -3,29 +3,29 @@ import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 
 // import { deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
-import { removeBookId } from '../utils/localStorage';
+import { removePlaceId } from '../utils/localStorage';
 
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
-import { REMOVE_BOOK } from '../utils/mutations';
+import { REMOVE_PLACE } from '../utils/mutations';
 import { User } from '../models/User';
-import { Book } from '../models/Place';
+import { Place } from '../models/Place';
 
 interface UserData {
   me : User;
 }
 
-interface RemoveBookData {
-  removeBook: Book;
+interface RemovePlaceData {
+  removePlace: Place;
 }
 
-const SavedBooks = () => {
+const SavedPlaces = () => {
   // useQuery hook to execute the GET_ME query
   const { loading, error, data } = useQuery<UserData>(GET_ME);
 
   // useMutation hook for REMOVE_BOOK
-  const [removeBook] = useMutation<RemoveBookData>(REMOVE_BOOK, {
-    update(cache, { data: { removeBook } }) {
+  const [removePlace] = useMutation<RemovePlaceData>(REMOVE_PLACE, {
+    update(cache, { data: { removePlace } }) {
       try {
         // Read the existing data from the cache
         const { me } = cache.readQuery<UserData>({ query: GET_ME });
@@ -37,7 +37,7 @@ const SavedBooks = () => {
           data: {
             me: {
               ...me,
-              savedBooks: me.savedBooks.filter((book: Book) => book.bookId !== removeBook.bookId),
+              savedPlaces: me.savedBooks.filter((place: Place) => place.placeId !== removePlace.placeId),
             },
           },
         });
@@ -53,10 +53,10 @@ const SavedBooks = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  const userData = data?.me || { savedBooks: [] };
+  const userData = data?.me || { savedPlaces: [] };
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
-  const handleDeleteBook = async (bookId: string) => {
+  const handleDeletePlace = async (placeId: string) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
@@ -65,18 +65,18 @@ const SavedBooks = () => {
 
     try {
       // Execute the REMOVE_BOOK mutation
-      await removeBook({
-        variables: { bookId },
+      await removePlace({
+        variables: { placeId },
       });
 
       // Remove the book's id from localStorage
-      removeBookId(bookId);
+      removePlaceId(placeId);
     } catch (err) {
       console.error(err);
     }
   };
 
-  if (!userData.savedBooks.length) {
+  if (!userData.savedPlaces.length) {
     return <h2>LOADING...</h2>;
   }
 
@@ -93,31 +93,31 @@ const SavedBooks = () => {
       </div>
       <Container>
         <h2 className='pt-5'>
-          {userData.savedBooks.length
-            ? `Viewing ${userData.savedBooks.length} saved ${
-                userData.savedBooks.length === 1 ? 'book' : 'books'
+          {userData.savedPlaces.length
+            ? `Viewing ${userData.savedPlaces.length} saved ${
+                userData.savedPlaces.length === 1 ? 'place' : 'places'
               }:`
-            : 'You have no saved books!'}
+            : 'You have no saved places!'}
         </h2>
         <Row>
-          {userData.savedBooks.map((book) => {
+          {userData.savedPlaces.map((place) => {
             return (
               <Col md='4'>
-                <Card key={book.bookId} border='dark'>
-                  {book.image ? (
+                <Card key={place.placeId} border='dark'>
+                  {place.image ? (
                     <Card.Img
-                      src={book.image}
-                      alt={`The cover for ${book.title}`}
+                      src={place.image}
+                      alt={`The cover for ${place.name}`}
                       variant='top'
                     />
                   ) : null}
                   <Card.Body>
-                    <Card.Title>{book.title}</Card.Title>
-                    <p className='small'>Authors: {book.authors}</p>
-                    <Card.Text>{book.description}</Card.Text>
+                    <Card.Title>{place.name}</Card.Title>
+                    <p className='small'>Authors: {place.savedPlaces}</p>
+                    <Card.Text>{place.description}</Card.Text>
                     <Button
                       className='btn-block btn-danger'
-                      onClick={() => handleDeleteBook(book.bookId)}
+                      onClick={() => handleDeletePlace(place.placeId)}
                     >
                       Delete this Place!
                     </Button>
@@ -132,4 +132,4 @@ const SavedBooks = () => {
   );
 };
 
-export default SavedBooks;
+export default SavedPlaces;
