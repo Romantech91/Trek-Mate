@@ -10,28 +10,28 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-//import { searchGoogleBooks } from '../utils/API';
-//import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
-import type { Book } from '../models/Book';
-import type { GoogleAPIBook } from '../models/GoogleAPIBook';
-//import { SAVE_BOOK } from '../utils/mutations';
+import { searchNPS } from '../utils/API';
+import { savePlaceIds, getSavedPlaceIds } from '../utils/localStorage';
+import type { Place } from '../models/Place';
+import type { NPSAPIPlace } from '../models/NPSAPI';
+import { SAVE_PLACE } from '../utils/mutations';
 import { useMutation } from '@apollo/client';
 import MapDisplay from '../components/MapDisplay';
 
 const Home = () => {
   // create state for holding returned google api data
-  const [searchedBooks, setSearchedBooks] = useState<Book[]>([]);
+  const [searchedPlaces, setSearchedPlaces] = useState<Place[]>([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
 
   // create state to hold saved bookId values
-  const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
+  const [savedPlaceIds, setSavedPlaceIds] = useState(getSavedPlaceIds());
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmounts
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
-    return () => saveBookIds(savedBookIds);
-  }, [savedBookIds]);
+    return () => savePlaceIds(savedPlaceIds);
+  }, [savedPlaceIds]);
 
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -42,7 +42,7 @@ const Home = () => {
     }
 
     try {
-      const response = await searchGoogleBooks(searchInput);
+      const response = await searchNPS(searchInput);
 
       if (!response.ok) {
         throw new Error('something went wrong!');
@@ -50,19 +50,17 @@ const Home = () => {
 
       const { items } = await response.json();
 
-      const bookData = items.map((book: GoogleAPIBook) => ({
-        bookId: book.id,
-        authors: book.volumeInfo.authors || ['No author to display'],
-        title: book.volumeInfo.title,
-        description: book.volumeInfo.description,
-        image: book.volumeInfo.imageLinks?.thumbnail || '',
+      const placeData = items.map((place: NPSAPIPlace) => ({
+        placeId: place.id,
+        name: place.parkInfo.name,
+        description: place.parkInfo.description,
         location: {
-          lat: book.volumeInfo.lat || 0,
-          lng: book.volumeInfo.lng || 0,
-        }
+          lat: parseFloat(place.parkInfo.latitude),
+          lng: parseFloat(place.parkInfo.longitude),
+        },
       }));
-      console.log(bookData);
-      setSearchedBooks(bookData);
+      console.log(placeData);
+      setSearchedPlaces(placeData);
       setSearchInput('');
     } catch (err) {
       console.error(err);
@@ -70,12 +68,12 @@ const Home = () => {
   };
 
   // useMutation hook for saving a book
-  const [saveBook] = useMutation(SAVE_BOOK);
+  const [savePlace] = useMutation(SAVE_PLACE);
 
   // create function to handle saving a book to our database
-  const handleSaveBook = async (bookId: string) => {
+  const handleSavePlace = async (placeId: string) => {
     // find the book in `searchedBooks` state by the matching id
-    const bookToSave: Book = searchedBooks.find((book) => book.bookId === bookId)!;
+    const placeToSave: Place = searchedPlaces.find((place) => place.placeId === placeId)!;
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -86,8 +84,8 @@ const Home = () => {
     }
 
     try {
-      const response = await saveBook({
-        variables: { input: bookToSave },
+      const response = await savePlace({
+        variables: { input: placeToSave },
         context: {
           headers: {
             authorization: `Bearer ${token}`,
@@ -100,16 +98,16 @@ const Home = () => {
       }
 
       // if book successfully saves to user's account, save book id to state
-      setSavedBookIds([...savedBookIds, bookToSave.bookId]);
+      setSavedPlaceIds([...savedPlaceIds, placeToSave.placeId]);
     } catch (err) {
       console.error(err);
     }
   };
 
-  const locations = searchedBooks.map(book => ({
-    lat: book.location?.lat || 0,
-    lng: book.location?.lng || 0,
-    name: book.title,
+  const locations = searchedPlaces.map(place => ({
+    lat: place.location?.lat || 0,
+    lng: place.location?.lng || 0,
+    name: place.name,
   })
   );
 
@@ -117,7 +115,7 @@ const Home = () => {
     <>
       <div className="text-light bg-dark p-5">
         <Container>
-          <h1>Search for camping and hiking in your area!</h1>
+          <h1>Search for Places!</h1>
           <Form onSubmit={handleFormSubmit}>
             <Row>
               <Col xs={12} md={8}>
@@ -142,30 +140,30 @@ const Home = () => {
 
       <Container>
         <h2 className='pt-5'>
-          {searchedBooks.length
-            ? `Viewing ${searchedBooks.length} results:`
+          {searchedPlaces.length
+            ? `Viewing ${searchedPlaces.length} results:`
             : 'Search for a place to begin'}
         </h2>
         <Row>
-          {searchedBooks.map((book) => {
+          {searchedPlaces.map((place) => {
             return (
-              <Col md="4" key={book.bookId}>
+              <Col md="4" key={place.placeId}>
                 <Card border='dark'>
-                  {book.image ? (
-                    <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' />
+                  {place.description ? (
+                    <Card.Img src={place.description} alt={`The cover for ${place.name}`} variant='top' />
                   ) : null}
                   <Card.Body>
-                    <Card.Title>{book.title}</Card.Title>
-                    <p className='small'>Campgrounds: {book.authors}</p>
-                    <Card.Text>{book.description}</Card.Text>
+                    <Card.Title>{place.name}</Card.Title>
+                    <p className='small'>Places {book.savedPlaces}</p>
+                    <Card.Text>{place.description}</Card.Text>
                     {Auth.loggedIn() && (
                       <Button
-                        disabled={savedBookIds?.some((savedBookId: string) => savedBookId === book.bookId)}
+                        disabled={savedPlaceIds?.some((savedPlaceId: string) => savedPlaceId === place.placeId)}
                         className='btn-block btn-info'
-                        onClick={() => handleSaveBook(book.bookId)}>
-                        {savedBookIds?.some((savedBookId: string) => savedBookId === book.bookId)
+                        onClick={() => handleSavePlace(place.placeId)}>
+                        {savedPlaceIds?.some((savedPlaceId: string) => savedPlaceId === place.placeId)
                           ? 'This place has already been saved!'
-                          : 'Save this Place!'}
+                          : 'Save this place!'}
                       </Button>
                     )}
                   </Card.Body>

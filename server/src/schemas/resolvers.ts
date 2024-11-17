@@ -83,7 +83,7 @@ const resolvers = {
       // Return the token and the user
       return { token, user };
     },
-    saveBook: async (_parent: any, { input }: AddPlaceArgs, context: any) => {
+    savePlace: async (_parent: any, { input }: AddPlaceArgs, context: any) => {
       if (context.user) {
         return User.findOneAndUpdate(
           { _id: context.user._id },
@@ -101,11 +101,11 @@ const resolvers = {
       throw AuthenticationError;
       ('You need to be logged in!');
     },
-    removeBook: async (_parent: any, { placeId }: PlaceArgs, context: any) => {
+    removePlace: async (_parent: any, { placeId }: PlaceArgs, context: any) => {
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $pull: { savedPlaces: { bookId: placeId }} },
+          { $pull: { savedPlaces: { placeId: placeId }} },
           { new: true }
         );
         return updatedUser;
