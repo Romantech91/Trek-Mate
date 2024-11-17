@@ -11,6 +11,10 @@ export const GET_ME = gql`
         placeId
         savedPlaces
         name
+        location {
+          lat
+          lng
+        }
       }
     }
   }
