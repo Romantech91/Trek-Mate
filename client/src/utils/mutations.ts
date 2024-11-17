@@ -48,3 +48,5 @@ export const REMOVE_PLACE = gql`
     }
   }
 `;
+
+
