@@ -104,12 +104,14 @@ const Home = () => {
     }
   };
 
-  const locations = searchedPlaces.map(place => ({
-    lat: place.location?.lat || 0,
-    lng: place.location?.lng || 0,
+  const locations = searchedPlaces
+  .filter(place => place.location?.lat && place.location?.lng)
+  .map(place => ({
+    lat: place.location.lat,
+    lng: place.location.lng,
     name: place.name,
-  })
-  );
+  }));
+
 
   return (
     <>
@@ -154,7 +156,7 @@ const Home = () => {
                   ) : null}
                   <Card.Body>
                     <Card.Title>{place.name}</Card.Title>
-                    <p className='small'>Places {book.savedPlaces}</p>
+                    <p className='small'>Places {place.savedPlaces}</p>
                     <Card.Text>{place.description}</Card.Text>
                     {Auth.loggedIn() && (
                       <Button
