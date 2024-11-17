@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import App from './App.jsx'
 import Home from './pages/Home.js'
-import SavedBooks from './pages/SavedBooks'
+import SavedBooks from './pages/SavedPlaces.js'
 
 const router = createBrowserRouter([
   {
