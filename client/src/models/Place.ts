@@ -5,5 +5,6 @@ export interface Place {
   location: {
     lat: number;
     lng: number;
-  };
+  }
+  image: string;
 }
