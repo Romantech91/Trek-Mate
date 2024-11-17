@@ -30,6 +30,11 @@ export const SAVE_PLACE = gql`
     savePlace(input: $input) {
       placeId
       savedPlaces
+      name
+      location {
+        lat
+        lng
+      }  
     }
   }
 `;
