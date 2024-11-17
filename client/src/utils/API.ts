@@ -13,6 +13,6 @@ export const searchNPS = async (query: string) => {
     return await response.json(); // Parse the JSON data here
   } catch (error) {
     console.error(error);
-    return null; // Or handle errors however you'd like
+    return null;
   }
 };
