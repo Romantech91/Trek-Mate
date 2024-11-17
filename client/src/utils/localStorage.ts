@@ -1,4 +1,4 @@
-export const getSavedPlaceIds = () => {
+export const getSavedPlaceIds = (): string[] => {
   const savedPlaceIds = localStorage.getItem('saved_places')
     ? JSON.parse(localStorage.getItem('saved_places')!)
     : [];
@@ -14,7 +14,7 @@ export const savePlaceIds = (placeIdArr: string[]) => {
   }
 };
 
-export const removePlaceId = (placeId: string) => {
+export const removePlaceId = (placeId: string): boolean => {
   const savedPlaceIds = localStorage.getItem('saved_places')
     ? JSON.parse(localStorage.getItem('saved_places')!)
     : null;
