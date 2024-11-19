@@ -48,9 +48,9 @@ const Home = () => {
         throw new Error('something went wrong!');
       }
 
-      const { items } = await response.json();
+      const { data } = await response.json();
 
-      const placeData = items.map((place: NPSAPIPlace) => ({
+      const placeData = data.map((place: NPSAPIPlace) => ({
         placeId: place.id,
         name: place.parkInfo.name,
         description: place.parkInfo.description,

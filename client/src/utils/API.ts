@@ -1,4 +1,6 @@
 
+//@ts-ignore
+const API_KEY = 'SE2pqSQA5gDRSax0XSmb6keLsi0GWsbIaOAc1p56';
 // make a search to maps api
 export const searchNPS = async (query: string) => {
   try {
