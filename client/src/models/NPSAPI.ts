@@ -1,8 +1,6 @@
 export interface NPSAPIInfo {
-  latitude: string;
-  longitude: string;
-  parkCode: string;
   name: string;
+  addresses: string[];
   description: string;
 }
 
