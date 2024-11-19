@@ -42,22 +42,13 @@ const Home = () => {
     }
 
     try {
-      const response = await searchNPS(searchInput);
+      const campgrounds = await searchNPS(searchInput);
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
-      const { data } = await response.json();
-
-      const placeData = data.map((place: NPSAPIPlace) => ({
+      console.log(campgrounds); 
+      const placeData = campgrounds.map((place: NPSAPIPlace) => ({
         placeId: place.id,
         name: place.parkInfo.name,
         description: place.parkInfo.description,
-        location: {
-          lat: parseFloat(place.parkInfo.latitude),
-          lng: parseFloat(place.parkInfo.longitude),
-        },
       }));
       console.log(placeData);
       setSearchedPlaces(placeData);
