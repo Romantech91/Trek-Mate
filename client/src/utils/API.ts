@@ -11,7 +11,7 @@ export const searchNPS = async (query: string) => {
       throw new Error('Failed to fetch data from the API.');
     }
     const campgrounds = await response.json();
-    return campgrounds.data; // Parse the JSON data here
+    return campgrounds.data || []; // Parse the JSON data here
   } catch (error) {
     console.error(error);
     return null;
