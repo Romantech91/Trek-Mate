@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hiking Trails Map</title>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUtnwaINaaHVzEYnXudwANcd31QiSCOAg&callback=initMap"
+    async
+  ></script>
+  <style>
+    #map {
+      height: 80vh;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <label for="stateInput">Enter State Code (e.g., AZ): </label>
+    <input type="text" id="stateInput" placeholder="Enter state code" />
+  </div>
+  <div id="map"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
