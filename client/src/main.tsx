@@ -3,8 +3,14 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import App from './App.jsx'
-import Home from './pages/Home.js'
-import SavedBooks from './pages/SavedPlaces.js'
+import Home from './pages/Home'
+import SavedPlaces from './pages/SavedPlaces'
+import LoginForm from './components/LoginForm'
+import SignupForm from './components/SignupForm'
+
+const handleModalCLose = () => {
+  console.log('Modal closed');
+};
 
 const router = createBrowserRouter([
   {
@@ -17,7 +23,13 @@ const router = createBrowserRouter([
         element: <Home />
       }, {
         path: '/saved',
-        element: <SavedBooks />
+        element: <SavedPlaces />
+      }, {
+        path: '/login',
+        element: <LoginForm handleModalClose={handleModalCLose} />
+      }, {
+        path: '/signup',
+        element: <SignupForm handleModalClose={handleModalCLose} />
       }
     ]
   }
