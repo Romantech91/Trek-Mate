@@ -7,15 +7,12 @@ import Home from './pages/Home'
 import SavedPlaces from './pages/SavedPlaces'
 import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
-
-const handleModalCLose = () => {
-  console.log('Modal closed');
-};
+import Auth from './utils/auth'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: Auth.loggedIn() ? <App /> : <LoginForm handleModalClose={() => {}} />,
     errorElement: <h1 className='display-2'>Wrong page!</h1>,
     children: [
       {
@@ -23,13 +20,13 @@ const router = createBrowserRouter([
         element: <Home />
       }, {
         path: '/saved',
-        element: <SavedPlaces />
+        element: Auth.loggedIn() ? <SavedPlaces /> : <LoginForm handleModalClose={() => {}} />
       }, {
         path: '/login',
-        element: <LoginForm handleModalClose={handleModalCLose} />
+        element: <LoginForm handleModalClose={() => {}} />
       }, {
         path: '/signup',
-        element: <SignupForm handleModalClose={handleModalCLose} />
+        element: <SignupForm handleModalClose={() => {}} />
       }
     ]
   }
