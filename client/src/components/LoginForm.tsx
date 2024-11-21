@@ -9,7 +9,7 @@ import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
 
 // biome-ignore lint/correctness/noEmptyPattern: <explanation>
-const LoginForm = ({}: { handleModalClose: () => void }) => {
+const LoginForm = () => {
   const [userFormData, setUserFormData] = useState<User>({ username: '', email: '', password: '', savedPlaces: [] });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);

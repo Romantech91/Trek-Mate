@@ -1,37 +1,75 @@
-import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-import App from './App.jsx'
-import Home from './pages/Home'
-import SavedPlaces from './pages/SavedPlaces'
-import LoginForm from './components/LoginForm'
-import SignupForm from './components/SignupForm'
-import Auth from './utils/auth'
+import App from './App';
+import Home from './pages/Home';
+import SavedPlaces from './pages/SavedPlaces';
+import LoginForm from './components/LoginForm';
+import SignupForm from './components/SignupForm';
+import Auth from './utils/auth';
+
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import LandingPage from './components/LandingPage';
+
+// Set up Apollo Client
+const httpLink = createHttpLink({
+  uri: '/graphql',
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('id_token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
+const handleModalClose = () => {
+  console.log('Modal closed');
+};
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: Auth.loggedIn() ? <App /> : <LoginForm handleModalClose={() => {}} />,
-    errorElement: <h1 className='display-2'>Wrong page!</h1>,
+    element: Auth.loggedIn() ? <App /> : <LandingPage/>,
+    errorElement: <h1 className="display-2">Wrong page!</h1>,
     children: [
       {
         index: true,
-        element: <Home />
-      }, {
+        element: <Home />,
+      },
+      {
         path: '/saved',
-        element: Auth.loggedIn() ? <SavedPlaces /> : <LoginForm handleModalClose={() => {}} />
-      }, {
+        element: Auth.loggedIn() ? <SavedPlaces /> : <LoginForm />,
+      },
+      {
         path: '/login',
-        element: <LoginForm handleModalClose={() => {}} />
-      }, {
+        element: <LoginForm handleModalClose={handleModalClose} />,
+      },
+      {
         path: '/signup',
-        element: <SignupForm handleModalClose={() => {}} />
-      }
-    ]
-  }
-])
+        element: <SignupForm handleModalClose={handleModalClose} />,
+      },
+    ],
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <RouterProvider router={router} />
-)
+  <ApolloProvider client={client}>
+    <RouterProvider router={router} />
+  </ApolloProvider>
+);
