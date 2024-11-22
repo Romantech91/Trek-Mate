@@ -16,7 +16,7 @@ import {
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import LandingPage from './components/LandingPage';
+
 
 // Set up Apollo Client
 const httpLink = createHttpLink({
@@ -38,14 +38,14 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const handleModalClose = () => {
-  console.log('Modal closed');
-};
+//const handleModalClose = () => {
+ // console.log('Modal closed');
+//};
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: Auth.loggedIn() ? <App /> : <LandingPage/>,
+    element: <App />,
     errorElement: <h1 className="display-2">Wrong page!</h1>,
     children: [
       {
@@ -58,11 +58,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/login',
-        element: <LoginForm handleModalClose={handleModalClose} />,
+        element: <LoginForm />,
       },
       {
         path: '/signup',
-        element: <SignupForm handleModalClose={handleModalClose} />,
+        element: <SignupForm />,
       },
     ],
   },

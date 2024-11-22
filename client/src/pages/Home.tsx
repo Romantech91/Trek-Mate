@@ -17,8 +17,15 @@ import type { NPSAPIPlace } from '../models/NPSAPI';
 import { SAVE_PLACE } from '../utils/mutations';
 import { useMutation } from '@apollo/client';
 import MapDisplay from '../components/MapDisplay';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!Auth.loggedIn()) {
+      navigate('/');
+    }
+  }, []);
   // create state for holding returned google api data
   const [searchedPlaces, setSearchedPlaces] = useState<Place[]>([]);
   // create state for holding our search field data
