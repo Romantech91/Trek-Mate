@@ -3,12 +3,10 @@ import type { FormEvent } from 'react';
 import {
   Container,
   Col,
-  Form,
   Button,
   Card,
   Row
 } from 'react-bootstrap';
-
 import Auth from '../utils/auth';
 import { searchNPS } from '../utils/API';
 import { savePlaceIds, getSavedPlaceIds } from '../utils/localStorage';
@@ -18,6 +16,8 @@ import { SAVE_PLACE } from '../utils/mutations';
 import { useMutation } from '@apollo/client';
 import MapDisplay from '../components/MapDisplay';
 import { useNavigate } from 'react-router-dom';
+import SearchBar from '../components/SearchBar';
+import PrivateRoutes from '../components/PrivateRoutes';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -114,30 +114,14 @@ const Home = () => {
   return (
     <>
       <div className="text-light bg-dark p-5">
-        <Container>
-          <h1>Search for Places!</h1>
-          <Form onSubmit={handleFormSubmit}>
-            <Row>
-              <Col xs={12} md={8}>
-                <Form.Control
-                  name='searchInput'
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  type='text'
-                  size='lg'
-                  placeholder='Search for a place'
-                />
-              </Col>
-              <Col xs={12} md={4}>
-                <Button type='submit' variant='success' size='lg'>
-                  Submit Search
-                </Button>
-              </Col>
-            </Row>
-          </Form>
-        </Container>
+      <PrivateRoutes>
+        <SearchBar
+          searchInput={searchInput}
+          setSearchInput={setSearchInput}
+          handleFormSubmit={handleFormSubmit}
+        />
+      </PrivateRoutes>
       </div>
-
       <Container>
         <h2 className='pt-5'>
           {searchedPlaces.length
