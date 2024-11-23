@@ -7,5 +7,6 @@ export interface Place {
     lng: number;
   }
   image: string;
+  savedPlaces: string[];
 }
 //
