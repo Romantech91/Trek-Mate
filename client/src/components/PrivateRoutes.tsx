@@ -1,16 +1,8 @@
-import { ReactNode } from 'react';
-import Auth from '../utils/auth';
 import { Navigate } from 'react-router-dom';
+import Auth from '../utils/auth';
 
-interface PrivateRouteProps {
-  children: ReactNode;
-}
-
-const PrivateRoute = ({ children }: PrivateRouteProps) => {
-  if (!Auth.loggedIn()) {
-    return <Navigate to="/" replace />;
-  }
-  return <>{children}</>;
+const PrivateRoutes = ({ children }: { children: JSX.Element }) => {
+  return Auth.loggedIn() ? children : <Navigate to="/login" />;
 };
 
-export default PrivateRoute;
+export default PrivateRoutes;
