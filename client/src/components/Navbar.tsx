@@ -1,18 +1,15 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
-import SignUpForm from './SignupForm';
-import LoginForm from './LoginForm';
-
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import Auth from '../utils/auth';
+import Modal from './Modal';
+
 
 const AppNavbar = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
-  const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login');
 
-  const handleModalOpen = (tab: 'login' | 'signup') => {
-    setActiveTab(tab);
+  const handleModalOpen = () => {
     setShowModal(true);
   };
 
@@ -37,47 +34,18 @@ const AppNavbar = () => {
                 </>
               ) : (
                 <>
-                  <Nav.Link onClick={() => handleModalOpen('login')}>Log In</Nav.Link>
-                  <Nav.Link onClick={() => handleModalOpen('signup')}>Sign Up</Nav.Link>
-                  <Nav.Link onClick={() => handleModalOpen('login')}>See Your Places</Nav.Link>
+                  <Nav.Link onClick={() => handleModalOpen()}>Log In</Nav.Link>
+                  <Nav.Link onClick={() => handleModalOpen()}>Sign Up</Nav.Link>
                 </>
               )}
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {/* set modal data up */}
       <Modal
-        size="lg"
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        aria-labelledby="auth-modal"
-      >
-        <Tab.Container activeKey={activeTab} onSelect={(tab) => setActiveTab(tab as 'login' | 'signup')}>
-          <Modal.Header closeButton>
-            <Modal.Title id="auth-modal">
-              <Nav variant="pills">
-                <Nav.Item>
-                  <Nav.Link eventKey="login">Login</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="signup">Sign Up</Nav.Link>
-                </Nav.Item>
-              </Nav>
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Tab.Content>
-              <Tab.Pane eventKey="login">
-                <LoginForm />
-              </Tab.Pane>
-              <Tab.Pane eventKey="signup">
-                <SignUpForm />
-              </Tab.Pane>
-            </Tab.Content>
-          </Modal.Body>
-        </Tab.Container>
-      </Modal>
+        showModal={showModal}
+        onClose={() => setShowModal(false)}
+      />
     </>
   );
 };
