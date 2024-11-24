@@ -7,7 +7,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './src/_tests_/setup.ts'
+    setupFiles: './cypress/e2e'
   },
   server: {
     port: 3000,
