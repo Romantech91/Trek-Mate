@@ -1,12 +1,17 @@
 {
   "extends": "../tsconfig.json",
     "compilerOptions": {
+      "jsx": "react",
       "target": "es5",
       "lib": ["es5", "dom"],
       "types": ["cypress", "node"],
 
+      
+
+
       /* Base URL for imports */
       "baseUrl": "./src"
+
     },
     "include": ["**/*.ts"]
 }
