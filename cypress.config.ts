@@ -1,5 +1,5 @@
 import { defineConfig } from 'cypress';
-import viteConfig from './vite.config';
+//import viteConfig from './vite.config';
 
 export default defineConfig({
   component: {
@@ -7,8 +7,9 @@ export default defineConfig({
     devServer: {
       framework: 'react',
       bundler: 'vite',
-      viteConfig,
-      //server: { host: '0.0.0.0', port: 5173},
+      viteConfig: {
+      server: { host: '0.0.0.0', port: 5173}
+      },
     },
   },
 
