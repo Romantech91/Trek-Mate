@@ -19,20 +19,23 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^8.2.0",
-    "wait-on": "^7.2.0",
     "cypress": "^13.13.0",
+    "eslint": "^8.57.1",
+    "eslint-plugin-react": "^7.37.2",
+    "globals": "^15.12.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "ts-node": "^10.9.2",
-    "eslint": "^8.10.0"
+    "typescript-eslint": "^8.15.0",
+    "wait-on": "^7.2.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.0",
     "@fortawesome/free-brands-svg-icons": "^6.7.0",
     "@fortawesome/free-solid-svg-icons": "^6.7.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
-    "mongoose": "^8.7.1",
     "@vitejs/plugin-react": "^4.3.1",
+    "mongoose": "^8.7.1",
     "vitest": "^2.0.3"
   }
 }
