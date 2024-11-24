@@ -12,7 +12,7 @@
     "test": "npx cypress run --browser electron",
     "test-component": "npx cypress run --component",
     "test-gui": "npx cypress open",
-    "lint": "eslint src --ext js,tsx --report-unused-disable-directives --max-warnings 0"
+    "lint": "eslint --ext js,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "keywords": [],
   "author": "",
