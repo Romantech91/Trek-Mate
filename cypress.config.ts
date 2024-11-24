@@ -8,6 +8,7 @@ export default defineConfig({
       framework: 'react',
       bundler: 'vite',
       viteConfig,
+      //server: { host: '0.0.0.0', port: 5173},
     },
   },
 
