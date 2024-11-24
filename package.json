@@ -12,7 +12,7 @@
     "test": "npx cypress run --browser electron",
     "test-component": "npx cypress run --component",
     "test-gui": "npx cypress open",
-    "lint": "eslint ."
+    "lint": "eslint src --ext js,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "keywords": [],
   "author": "",
@@ -20,8 +20,9 @@
   "devDependencies": {
     "concurrently": "^8.2.0",
     "cypress": "^13.13.0",
-    "eslint": "^8.57.1",
-    "eslint-plugin-react": "^7.37.2",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
     "globals": "^15.12.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
