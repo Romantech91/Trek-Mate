@@ -1,5 +1,5 @@
 import { defineConfig } from 'cypress';
-//import viteConfig from './vite.config';
+import viteConfig from './vite.config';
 
 export default defineConfig({
   component: {
@@ -7,14 +7,12 @@ export default defineConfig({
     devServer: {
       framework: 'react',
       bundler: 'vite',
-      viteConfig: {
-      server: { host: '0.0.0.0', port: 5173}
-      },
+      viteConfig,
     },
   },
 
   e2e: {
-    baseUrl: 'http://localhost:3001',
+    baseUrl: 'http://localhost:3000',
     setupNodeEvents(on, config) {
       // implement node event listeners here
       console.log(on, config);
