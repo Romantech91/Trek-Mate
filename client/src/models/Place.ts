@@ -4,5 +4,7 @@ export interface Place {
   lng: number;
   weatherOverview: string;
   directionsUrl: string;
+  images: string[];
+  url: string;
 }
 

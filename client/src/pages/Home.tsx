@@ -58,6 +58,8 @@ const Home = () => {
         name: place.name,
         weather: place.weatherOverview,
         directions: place.directionsUrl,
+        images: place.images,
+        url: place.url,
       }));
       console.log(placeData);
       
