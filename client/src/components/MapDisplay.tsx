@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 //import './MapDisplay.css';
 
 interface MapDisplayProps {
-    locations: { lat: number; lng: number; name: string; weather: string; directions: string; url: string }[];
+    locations: { lat: number; lng: number; name: string; weather: string; directions: string; url: string; images: { url: string; altText: string; caption: string; credit: string }[] }[];
     zoomLevel?: number;
 }
 
@@ -44,6 +44,12 @@ const MapDisplay = ({ locations, zoomLevel = 4 }: MapDisplayProps) => {
           title: location.name,
         });
 
+        const imageHTML = location.images.map(img => `
+          <div>
+            <img src="${img.url}" alt="${img.altText}" onerror="this.style.display='none'" style="max-width: 100%; height: auto; max-height: 200px;">
+            <p style="font-size: 12px;">${img.caption} - ${img.credit}</p>
+          </div>
+        `).join('');
 
         // Create an InfoWindow for each marker
         const infoWindow = new google.maps.InfoWindow({
@@ -52,6 +58,7 @@ const MapDisplay = ({ locations, zoomLevel = 4 }: MapDisplayProps) => {
                   <h5 style="font-size: 15px">${location.weather}</h5> 
                   <p><a style="font-size: 15px" href="${location.directions}" target="_blank" rel="noopener noreferrer">Get Directions</a></p>
                   <p><a style="font-size: 15px" href="${location.url}" target="_blank" rel="noopener noreferrer">Park Site</a></p>
+                  ${imageHTML}
                   </div>`
         });
 
