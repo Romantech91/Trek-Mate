@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
-import {
-  Container,
-  Col,
-  Button,
-  Card,
-  Row
-} from 'react-bootstrap';
+// import {
+//   Container,
+//   Col,
+//   Button,
+//   Card,
+//   Row
+// } from 'react-bootstrap';
 import Auth from '../utils/auth';
 import { searchNPS } from '../utils/API';
-import { savePlaceIds, getSavedPlaceIds } from '../utils/localStorage';
+// import { savePlaceIds, getSavedPlaceIds } from '../utils/localStorage';
 import type { Place } from '../models/Place';
-import type { NPSAPIPlace } from '../models/NPSAPI';
-import { SAVE_PLACE } from '../utils/mutations';
-import { useMutation } from '@apollo/client';
+import type { NPSAPIInfo } from '../models/NPSAPI';
+// import { SAVE_PLACE } from '../utils/mutations';
+// import { useMutation } from '@apollo/client';
 import MapDisplay from '../components/MapDisplay';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from '../components/SearchBar';
@@ -31,16 +31,16 @@ const Home = () => {
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
 
-  // create state to hold saved bookId values
-  const [savedPlaceIds, setSavedPlaceIds] = useState(getSavedPlaceIds());
+  // create state to hold saved placeId values
+  // const [savedPlaceIds, setSavedPlaceIds] = useState(getSavedPlaceIds());
 
-  // set up useEffect hook to save `savedBookIds` list to localStorage on component unmounts
+  // set up useEffect hook to save `savedPlaceIds` list to localStorage on component unmounts
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
-  useEffect(() => {
-    return () => savePlaceIds(savedPlaceIds);
-  }, [savedPlaceIds]);
+  // useEffect(() => {
+  //   return () => savePlaceIds(savedPlaceIds);
+  // }, [savedPlaceIds]);
 
-  // create method to search for books and set state on form submit
+  // create method to search for places and set state on form submit
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -49,15 +49,16 @@ const Home = () => {
     }
 
     try {
-      const campgrounds = await searchNPS(searchInput);
+      const data = await searchNPS(searchInput);
 
-      console.log(campgrounds); 
-      const placeData = campgrounds.map((place: NPSAPIPlace) => ({
-        placeId: place.id,
-        name: place.parkInfo.name,
-        description: place.parkInfo.description,
+      console.log(data); 
+      const placeData = data.map((place: NPSAPIInfo) => ({
+        lat: parseFloat(place.lat),
+        lng: parseFloat(place.lng),
+        name: place.name,
       }));
       console.log(placeData);
+      
       setSearchedPlaces(placeData);
       setSearchInput('');
     } catch (err) {
@@ -65,50 +66,54 @@ const Home = () => {
     }
   };
 
-  // useMutation hook for saving a book
-  const [savePlace] = useMutation(SAVE_PLACE);
+  // const locations = searchedPlaces
+  // .filter(place => place.location?.lat && place.location?.lng)
+  // .map(place => ({
+  //   lat: place.location.lat,
+  //   lng: place.location.lng,
+  //   name: place.name,
+  // }));
 
-  // create function to handle saving a book to our database
-  const handleSavePlace = async (placeId: string) => {
-    // find the book in `searchedBooks` state by the matching id
-    const placeToSave: Place = searchedPlaces.find((place) => place.placeId === placeId)!;
+  // useMutation hook for saving a place
+  // const [savePlace] = useMutation(SAVE_PLACE);
 
-    // get token
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
-    console.log(token);
-    if (!token) {
-      console.error('No token found, please log in to save places.');
-      return false;
-    }
+  // create function to handle saving a place to our database
+  // const handleSavePlace = async (placeId: string) => {
+  //   // find the place in `searchedPlaces` state by the matching id
+  //   const placeToSave: Place = searchedPlaces.find((place) => place.placeId === placeId)!;
 
-    try {
-      const response = await savePlace({
-        variables: { input: placeToSave },
-        context: {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        },
-      });
+  //   // get token
+  //   const token = Auth.loggedIn() ? Auth.getToken() : null;
+  //   console.log(token);
+  //   if (!token) {
+  //     console.error('No token found, please log in to save places.');
+  //     return false;
+  //   }
 
-      if (!response.data) {
-        throw new Error('Failed to save the place.');
-      }
+  //   try {
+  //     const response = await savePlace({
+  //       variables: { input: placeToSave },
+  //       context: {
+  //         headers: {
+  //           authorization: `Bearer ${token}`,
+  //         },
+  //       },
+  //     });
 
-      // if book successfully saves to user's account, save book id to state
-      setSavedPlaceIds([...savedPlaceIds, placeToSave.placeId]);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  //     if (!response.data) {
+  //       throw new Error('Failed to save the place.');
+  //     }
 
-  const locations = searchedPlaces
-  .filter(place => place.location?.lat && place.location?.lng)
-  .map(place => ({
-    lat: place.location.lat,
-    lng: place.location.lng,
-    name: place.name,
-  }));
+  //     // if book successfully saves to user's account, save book id to state
+  //     setSavedPlaceIds([...savedPlaceIds, placeToSave.placeId]);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
+
+
+  
 
 
   return (
@@ -122,7 +127,7 @@ const Home = () => {
         />
       </PrivateRoutes>
       </div>
-      <Container>
+      {/* <Container>
         <h2 className='pt-5'>
           {searchedPlaces.length
             ? `Viewing ${searchedPlaces.length} results:`
@@ -156,8 +161,8 @@ const Home = () => {
             );
           })}
         </Row>
-      </Container>
-      <MapDisplay locations={locations} zoomLevel={10}/>
+      </Container> */}
+      <MapDisplay locations={searchedPlaces} zoomLevel={10}/>
     </>
   );
 };
