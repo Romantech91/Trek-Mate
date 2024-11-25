@@ -56,6 +56,8 @@ const Home = () => {
         lat: parseFloat(place.latitude), // Removes any non-numeric, non-decimal, non-minus sign
         lng: parseFloat(place.longitude),
         name: place.name,
+        weather: place.weatherOverview,
+        directions: place.directionsUrl,
       }));
       console.log(placeData);
       
