@@ -1,112 +1,119 @@
-
-  ![License](https://img.shields.io/badge/license-mit-blue.svg)
-  
-## Description
-The Book Search App is a robust and user-centric platform built with the MERN stack, seamlessly integrated with the Google Books API to deliver a comprehensive and dynamic book exploration experience. Leveraging Apollo for efficient state management and GraphQL queries, the app ensures a streamlined and responsive interface. User authentication is implemented via JSON Web Token to provide secure, personalized access, allowing users to save their favorite book searches, create a saved books list, and curate personal reading collections. With a focus on both backend efficiency and front-end responsiveness, this application exemplifies modern web development practices, offering an intuitive and secure environment for book enthusiasts.
+# Trek Mate: A Hiking & Camping Companion App
 
 ## Table of Contents
-- [Description](#description)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Features](#features)
-- [Contributing](#contributing)
-- [License](#license)
-- [Video](#video)
-- [Tests](#tests)
-- [Questions](#questions)
+1. [Project Overview](#project-overview)
+2. [Features](#features)
+3. [Technologies Used](#technologies-used)
+4. [Setup Instructions](#setup-instructions)
+5. [API Endpoints](#api-endpoints)
+6. [Authentication](#authentication)
+7. [Protected Routes](#protected-routes)
+8. [Troubleshooting](#troubleshooting)
+9. [Future Improvements](#future-improvements)
+10. [Contributors](#contributors)
 
-## Installation
-1. Clone the repository: `git clone <your-repo-url>` and navigate to the project directory: `cd <your-repo-directory>`
-2. Install dependencies and compile the application: `npm run render-build`
-3. Start the application in dev: `npm run develop`
-
-## Usage
-The Book Search App enables users to search for books via the Google Books API and manage favorite lists and reading collections. With secure user authentication, saved searches, and Apollo-driven responsiveness, this MERN stack app ensures an intuitive book exploration experience.
+## Project Overview
+**Trek Mate** is a full-stack application designed for outdoor enthusiasts to find hiking trails, campsites, and nearby amenities, complete with real-time weather updates and maps. The app uses a responsive design, providing users with a seamless experience across devices.
 
 ## Features
+- **Search Functionality**: Search for trails and campsites by location or keyword.
+- **Interactive Maps**: Display hiking trails and campsites using an integrated map feature.
+- **Real-time Weather Updates**: Get accurate weather forecasts for selected locations.
+- **Authentication**: Secure user login and signup using JWT-based authentication.
+- **Wishlist**: Save favorite trails and campsites for easy access later.
+- **Feedback System**: Leave and respond to feedback on trails or campsites.
 
-Resolver to handle requests for logged in user, and corresponding query. 
-``` Resolver to handle requests for logged in user, and corresponding query. 
-me: async (_parent: any, _args: any, context: any) => {
-      if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate('savedBooks');
-      }
-      throw new AuthenticationError('Could not authenticate user.');
-    },
+## Technologies Used
+### **Frontend**:
+- React with TypeScript
+- React Router for routing
+- Bootstrap for styling
 
-------------------------------------------------------
+### **Backend**:
+- Node.js with Express
+- MongoDB with Mongoose for the database
+- GraphQL for API management
+- JWT for secure user authentication
 
-export const GET_ME = gql`
-  query me {
-    me {
-      _id
-      username
-      email
-      bookCount
-      savedBooks {
-        bookId
-        authors
-        description
-        title
-        image
-        link
-      }
-    }
-  }
-`;
-```
+### **APIs**:
+- **Trail & Campsite API**: Provides information about trails, campsites, and webcams.
+- **Weather API**: Real-time weather data for outdoor locations.
 
-Resolver to save book, and corresponding mutation.
-``` saveBook: async (_parent: any, { input }: AddBookArgs, context: any) => {
-      if (context.user) {
-        return User.findOneAndUpdate(
-          { _id: context.user._id },
-          {
-            $addToSet: {
-              savedBooks: { ...input },
-            },
-          },
-          {
-            new: true,
-            runValidators: true,
-          }
-        );
-      }
-      throw AuthenticationError;
-      ('You need to be logged in!');
-    },
+### **Testing**:
+- Cypress for end-to-end and component testing
+- GitHub Actions for CI/CD
 
-------------------------------------------------------
+## Setup Instructions
+### Prerequisites
+- Node.js (v14+)
+- MongoDB database set up
+- API keys for trail, campsite, and weather APIs
 
-export const SAVE_BOOK = gql`
-  mutation SaveBook($input: BookInput!) {
-    saveBook(input: $input) {
-      bookId
-      description
-      title
-      authors
-      image
-      link
-      createdAt
-    }
-  }
-`;
-```
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/trek-mate.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd trek-mate
+   ```
+3. Install dependencies for both the client and server:
+   ```bash
+   npm run install
+   ```
+4. Set up `.env` files:
+   - **Server-side**:
+     ```
+     MONGO_URI=your_mongodb_connection_string
+     JWT_SECRET=your_jwt_secret
+     TRAIL_API_KEY=your_trail_api_key
+     WEATHER_API_KEY=your_weather_api_key
+     ```
+   - **Client-side**:
+     ```
+     VITE_MAPS_API_KEY=your_maps_api_key
+     VITE_WEATHER_API_KEY=your_weather_api_key
+     ```
 
-## Contributing
-At this time, contributions are not being accepted for this project.
+5. Start the development environment:
+   ```bash
+   npm run develop
+   ```
+6. Access the app at `http://localhost:3000`.
 
-## License
-This project is licensed under the MIT license.
+## API Endpoints
+### Backend API
+- **POST** `/auth/register`: Create a new user.
+- **POST** `/auth/login`: Log in and receive a JWT token.
+- **GET** `/trails`: Fetch a list of hiking trails.
+- **GET** `/campsites`: Fetch a list of campsites.
+- **POST** `/feedback`: Add feedback for a trail or campsite.
 
-## Video
-[Watch the walkthrough video using this Google Drive Link](https://drive.google.com/file/d/1_7ppcImWtVgELZwz62kRjjDnUo42qc-v/view?usp=drive_link)
+### Integrated APIs
+- **Trails & Campsites**: Fetch trail and campsite data from an external source.
+- **Weather**: Fetch weather updates for selected locations.
 
-## Tests
-There are currently no tests written for this application.
+## Authentication
+**JWT Authentication** secures user sessions by issuing tokens at login and storing them in the browser’s local storage. The app validates these tokens before granting access to protected routes, ensuring secure interactions.
 
-## Questions
-If you have any questions, please reach out to me:
-- Github: [vtencouchclimbr](https://github.com/vtencouchclimbr)
-- Email: lmntrylmnt@gmail.com
-  
+## Protected Routes
+Certain features, such as the search bar and wishlist, are only accessible to authenticated users. Protected routes use the `PrivateRoutes` component to verify the user’s login status.
+
+## Troubleshooting
+- **Database Connection Error**: Ensure the MongoDB URI in the `.env` file is correct.
+- **API Errors**: Verify API keys are valid and added to the `.env` file.
+- **Cypress Tests Failing**: Check that the development server is running at `http://localhost:3001`.
+
+## Future Improvements
+- **Enhanced Search Filters**: Allow users to filter results by difficulty, amenities, or distance.
+- **Social Features**: Add user profiles and the ability to share favorite trails and campsites.
+- **Mobile App**: Expand functionality to mobile platforms for offline access.
+
+## Contributors
+We extend our gratitude to all contributors who made this project possible:
+- [Victor Roman](https://github.com/Romantech91)
+- [Jesse Anderson](https://github.com/Vtencouchclimbr)
+- [Kevin Kerman](https://github.com/KevinKerman1)
+
+Want to contribute? Fork the repository and submit a pull request or open an issue.  

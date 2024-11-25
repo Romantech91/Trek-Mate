@@ -10,7 +10,8 @@
     "install": "cd server && npm i && cd ../client && npm i",
     "build": "concurrently \"cd server && npm run build\" \"cd client && npm run build\"",
     "render-build": "npm install && npm run build",
-    "test": "npx cypress run --browser electron",
+    "test": "concurrently \"npm run start:server\" \"wait-on http://localhost:3001 && npx cypress run --browser electron\"",
+    "start:server": "cd server && npm start",
     "test-component": "npx cypress run --component",
     "test-gui": "npx cypress open",
     "lint": "eslint --ext js,tsx --report-unused-disable-directives --max-warnings 0"
