@@ -1,3 +1,13 @@
+
+interface Image {
+  altText: string;
+  caption: string;
+  credit: string;
+  crops: any[]; // Adjust this type based on what 'crops' actually holds
+  title: string;
+  url: string;
+}
+
 export interface NPSAPIInfo {
   name: string;
   addresses: string[];
@@ -7,7 +17,7 @@ export interface NPSAPIInfo {
   weatherOverview: string;
   directionsUrl: string;
   url: string;
-  images: string[];
+  images: Image[];
 }
 
 export interface NPSAPIPlace {
