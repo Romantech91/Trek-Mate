@@ -75,7 +75,7 @@ const MapDisplay = ({ locations, zoomLevel = 4 }: MapDisplayProps) => {
 
   return (
     <div className='map-container'>
-      <h3 style={{color:'#f4f4f4'}}>USE THE DYNAMIC MAP TO EXPLORE YOUR FAVORITE AREAS</h3>
+      <h3 className='text-dark'>USE THE DYNAMIC MAP TO EXPLORE YOUR FAVORITE AREAS</h3>
       <div ref={mapRef} style={{ height: '600px', width: '100%' }}></div>
     </div>
   );
