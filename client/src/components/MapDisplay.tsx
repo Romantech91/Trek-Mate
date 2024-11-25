@@ -13,7 +13,7 @@ const MapDisplay = ({ locations, zoomLevel = 4 }: MapDisplayProps) => {
   useEffect(() => {
     window.initMap = initMap; // Make initMap available in global scope
 
-    const url = https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_API_KEY}&callback=initMap;
+    const url = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_API_KEY}&callback=initMap`;
     const script = document.createElement('script');
     script.src = url;
     script.async = true;
@@ -35,7 +35,7 @@ const MapDisplay = ({ locations, zoomLevel = 4 }: MapDisplayProps) => {
     });
 
     const bounds = new google.maps.LatLngBounds();
-
+    
     if (locations && locations.length > 0) {
       locations.forEach((location) => {
         const marker = new google.maps.Marker({
