@@ -53,8 +53,8 @@ const Home = () => {
 
       console.log(data); 
       const placeData = data.map((place: NPSAPIInfo) => ({
-        lat: parseFloat(place.lat),
-        lng: parseFloat(place.lng),
+        lat: parseFloat(place.latitude), // Removes any non-numeric, non-decimal, non-minus sign
+        lng: parseFloat(place.longitude),
         name: place.name,
       }));
       console.log(placeData);
