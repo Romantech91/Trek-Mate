@@ -2,8 +2,8 @@ export interface NPSAPIInfo {
   name: string;
   addresses: string[];
   description: string;
-  lat: string;
-  lng: string;
+  latitude: string;
+  longitude: string;
 }
 
 export interface NPSAPIPlace {
