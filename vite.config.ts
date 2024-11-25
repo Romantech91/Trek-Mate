@@ -7,7 +7,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './src/_tests_/setup.ts'
+    setupFiles: './cypress/e2e'
   },
   server: {
     port: 3000,
@@ -17,7 +17,12 @@ export default defineConfig({
         target: 'http://localhost:3001',
         secure: false,
         changeOrigin: true
-      }
-    }
-  }
+      },
+      '/graphql': {
+        target: 'http://localhost:3001',
+        secure: false,
+        changeOrigin: true
+      },
+    },
+  },
 })

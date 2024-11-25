@@ -39,6 +39,10 @@ jobs:
       - name: Run Build
         run: npm run build
 
+      # Start server
+      - name: Start Server
+        run: npm start
+        
       # Run tests
       - name: Run Tests
         run: npm run test

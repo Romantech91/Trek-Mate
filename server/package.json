@@ -8,7 +8,8 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "watch": "nodemon dist/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:server": "cd server && npm start",
+    "test": "wait-on http://localhost:3001 && npx cypress run --browser electron"
   },
   "keywords": [],
   "author": "",
