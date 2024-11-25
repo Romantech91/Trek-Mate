@@ -7,55 +7,49 @@ interface MapDisplayProps {
     zoomLevel?: number;
 }
 
-const MapDisplay = ({ zoomLevel = 4 }: MapDisplayProps) => {
+const MapDisplay = ({ locations, zoomLevel = 4 }: MapDisplayProps) => {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    const url = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_API_KEY}&callback=initMap`;
+    window.initMap = initMap; // Make initMap available in global scope
+
+    const url = https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_API_KEY}&callback=initMap;
     const script = document.createElement('script');
     script.src = url;
     script.async = true;
-    script.onload = () => {
-      if (mapRef.current) {
-        initMap(); // Ensure mapRef.current is defined
-      }
-    };
+    script.onload = initMap;
     document.body.appendChild(script);
-
-    script.onload = () => {
-      if (mapRef.current) {
-        initMap(); // Ensure mapRef.current is defined
-      }
-    };
 
     return () => {
       document.body.removeChild(script);
+      delete window.initMap; // Clean up when component unmounts
     };
-  }, []);
+  }, [locations]); // Note: added locations to dependency array if you want to re-render map on location change
 
   const initMap = () => {
-    if (!mapRef.current) return; // Ensure mapRef.current is not null
+    if (!mapRef.current) return;
 
     const map = new google.maps.Map(mapRef.current, {
-      zoom: zoomLevel || 4,
-      center: { lat: 39.8283, lng: -98.5795 } // Centered on the USA
+      zoom: zoomLevel,
+      center: { lat: 39.8283, lng: -98.5795 } // Default center
     });
 
-    const locations = [
-      { lat: 40.7128, lng: -74.0060, name: 'New York' }, // New York
-      { lat: 34.0522, lng: -118.2437, name: 'Los Angeles' }, // Los Angeles
-      { lat: 41.8781, lng: -87.6298, name: 'Chicago' }, // Chicago
-      { lat: 29.7604, lng: -95.3698, name: 'Houston' }, // Houston
-      { lat: 33.4484, lng: -112.0740, name: 'Phoenix' } // Phoenix
-    ];
+    const bounds = new google.maps.LatLngBounds();
 
-    locations.forEach((location) => {
-      new google.maps.Marker({
-        position: location,
-        map: map,
-        title: location.name,
+    if (locations && locations.length > 0) {
+      locations.forEach((location) => {
+        const marker = new google.maps.Marker({
+          position: { lat: location.lat, lng: location.lng },
+          map: map,
+          title: location.name,
+        });
+        bounds.extend(marker.getPosition());
       });
-    });
+
+      map.fitBounds(bounds);
+    } else {
+      map.setCenter({ lat: 39.8283, lng: -98.5795 });
+    }
   };
 
   return (
