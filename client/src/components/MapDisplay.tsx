@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 //import './MapDisplay.css';
 
 interface MapDisplayProps {
-    locations: { lat: number; lng: number; name: string; weather: string; directions: string }[];
+    locations: { lat: number; lng: number; name: string; weather: string; directions: string; url: string }[];
     zoomLevel?: number;
 }
 
@@ -47,9 +47,12 @@ const MapDisplay = ({ locations, zoomLevel = 4 }: MapDisplayProps) => {
 
         // Create an InfoWindow for each marker
         const infoWindow = new google.maps.InfoWindow({
-          content: `<h4>${location.name}</h4> 
-                  <h5>${location.weather}</h5> 
-                  <p><a href="${location.directions}" target="_blank" rel="noopener noreferrer">Get Directions</a></p>`
+          content: `<div style="background-color:">
+                  <h4 style="font-size: 25px">${location.name}</h4> 
+                  <h5 style="font-size: 15px">${location.weather}</h5> 
+                  <p><a style="font-size: 15px" href="${location.directions}" target="_blank" rel="noopener noreferrer">Get Directions</a></p>
+                  <p><a style="font-size: 15px" href="${location.url}" target="_blank" rel="noopener noreferrer">Park Site</a></p>
+                  </div>`
         });
 
         // Add a click event listener to open the InfoWindow
