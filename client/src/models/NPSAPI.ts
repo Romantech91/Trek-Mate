@@ -4,6 +4,8 @@ export interface NPSAPIInfo {
   description: string;
   latitude: string;
   longitude: string;
+  weatherOverview: string;
+  directionsUrl: string;
 }
 
 export interface NPSAPIPlace {

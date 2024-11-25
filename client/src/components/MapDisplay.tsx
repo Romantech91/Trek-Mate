@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 //import './MapDisplay.css';
 
 interface MapDisplayProps {
-    locations: { lat: number; lng: number; name: string }[];
+    locations: { lat: number; lng: number; name: string; weather: string; directions: string }[];
     zoomLevel?: number;
 }
 
@@ -43,6 +43,24 @@ const MapDisplay = ({ locations, zoomLevel = 4 }: MapDisplayProps) => {
           map: map,
           title: location.name,
         });
+
+
+        // Create an InfoWindow for each marker
+        const infoWindow = new google.maps.InfoWindow({
+          content: `<h4>${location.name}</h4> 
+                  <h5>${location.weather}</h5> 
+                  <p><a href="${location.directions}" target="_blank" rel="noopener noreferrer">Get Directions</a></p>`
+        });
+
+        // Add a click event listener to open the InfoWindow
+        marker.addListener('click', () => {
+          infoWindow.open({
+            anchor: marker,
+            map,
+            shouldFocus: false,
+          });
+        });
+
         bounds.extend(marker.getPosition());
       });
 
