@@ -15,6 +15,8 @@
 ## Project Overview
 **Trek Mate** is a full-stack application designed for outdoor enthusiasts to find hiking trails, campsites, and nearby amenities, complete with real-time weather updates and maps. The app uses a responsive design, providing users with a seamless experience across devices.
 
+**Deployed Link**: [Trek Mate](https://trek-mate.onrender.com)
+
 ## Features
 - **Search Functionality**: Search for trails and campsites by location or keyword.
 - **Interactive Maps**: Display hiking trails and campsites using an integrated map feature.
